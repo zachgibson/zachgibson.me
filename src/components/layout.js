@@ -41,10 +41,10 @@ const Layout = ({ children }) => (
           <main>{children}</main>
           <footer
             style={{
-              padding: 64,
+              padding: 48,
               textAlign: "center",
               fontFamily: "HelveticaNeue-Bold",
-              fontSize: "24px",
+              fontSize: 16,
               color: "#000000",
               lineHeight: "32px",
               textTransform: "uppercase",
