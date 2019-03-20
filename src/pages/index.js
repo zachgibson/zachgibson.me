@@ -22,19 +22,21 @@ const IPhone = ({
   >
     <div style={{ position: "relative" }}>
       <video
-        // controls
+        controls
         src={videoSrc}
         poster={image}
         style={{
           position: "absolute",
-          top: 0,
-          left: 0,
-          display: "block",
-          width: "100%",
+          top: orientation === "portrait" ? "2.75%" : "6.3%",
+          left: orientation === "portrait" ? "6.5%" : "2.9%",
+          width: orientation === "portrait" ? "87%" : "94.5%",
         }}
       />
       <img
-        style={{ position: "relative" }}
+        style={{
+          pointerEvents: "none",
+          position: "relative",
+        }}
         src={
           orientation === "portrait"
             ? require("../images/iPhone-Xs.png")
@@ -45,26 +47,21 @@ const IPhone = ({
     <div
       style={{
         marginTop: 16,
-        // padding: 8,
-        // border: "1px dashed #000",
-        // borderTop: "none",
       }}
     >
       <div
         style={{
-          fontSize: "14px",
-          fontWeight: "600",
+          fontSize: 16,
+          fontWeight: "700",
           lineHeight: "1.42861",
           letterSpacing: "-.016em",
           fontFamily:
             '"SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif',
           color: "#000000",
-          textTransform: "uppercase",
         }}
       >
         OFF-WHITE Gallery
       </div>
-      <br />
       <div
         style={{
           fontSize: "14px",
@@ -74,7 +71,6 @@ const IPhone = ({
           fontFamily:
             '"SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif',
           color: "#000000",
-          // textTransform: "uppercase",
         }}
       >
         {appInfoText}
@@ -108,19 +104,13 @@ const Text = ({ children, style }) => (
       style={{
         maxWidth: 680,
         marginBottom: 0,
-        // fontFamily: "system-ui",
-        // fontWeight: "500",
-        // fontSize: "30px",
         color: "#000000",
-        // lineHeight: 1.25,
-        // FONT FROM 
         fontSize: "32px",
         lineHeight: "1.125",
         fontWeight: "600",
         letterSpacing: ".004em",
         fontFamily:
           '"SF Pro Display","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif',
-        // textTransform: "uppercase",
       }}
     >
       {children}
@@ -144,9 +134,9 @@ const IndexPage = () => (
                             "i i i j j j j j j ."
                             ". . . j j j j j j ."`,
         // end GRID styles
-        // maxWidth: 1200,
-        // marginLeft: "auto",
-        // marginRight: "auto",
+        maxWidth: 1440,
+        marginLeft: "auto",
+        marginRight: "auto",
       }}
     >
       <Text
@@ -192,6 +182,7 @@ const IndexPage = () => (
         style={{ gridArea: "e" }}
         image={require("../images/camera.jpg")}
         videoSrc={require("../videos/showcase-live-stream.mp4")}
+        orientation="landscape"
       />
       <IPhone
         style={{ gridArea: "f" }}
@@ -217,10 +208,7 @@ const IndexPage = () => (
         }}
       >
         <Text>
-          <img
-            style={{ maxWidth: "50%" }}
-            src="https://scontent-dfw5-2.cdninstagram.com/vp/ba96a31af096bc7327306aa89caee9bc/5D1842F6/t51.2885-15/sh0.08/e35/p640x640/53425015_2229018100749097_2835631967224202949_n.jpg?_nc_ht=scontent-dfw5-2.cdninstagram.com"
-          />
+          <img src="https://scontent-atl3-1.cdninstagram.com/vp/6f721bc3c669eff7b2fc95edba92398c/5D2EB6F6/t51.2885-15/e15/1688266_1441623519406231_1454166021_n.jpg?_nc_ht=scontent-atl3-1.cdninstagram.com" />
           <br />
           I spend my time Tweeting, taking photos, making art, and writing code.
           I also write about design, courage, and lack thereof.
