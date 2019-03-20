@@ -1,44 +1,98 @@
-import React from "react"
+import React, { Fragment } from "react"
 import { Link } from "gatsby"
 
 import Layout from "../components/layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
 
-const IPhone = ({ image, style, videoSrc, appInfoText, appLinks }) => (
+const IPhone = ({
+  image,
+  style,
+  videoSrc,
+  appInfoText,
+  appLinks,
+  appTechnology,
+  orientation = "portrait",
+}) => (
   <div
     style={{
       padding: 32,
       ...style,
     }}
   >
-    <video
-      // controls
-      src={videoSrc}
-      poster={image}
-      style={{ display: "block", width: "100%" }}
-    />
-    <div
-      style={{
-        fontFamily: "HelveticaNeue-Bold",
-        fontSize: 13,
-        color: "#000000",
-        textTransform: "uppercase",
-      }}
-    >
-      {appInfoText}
+    <div style={{ position: "relative" }}>
+      <video
+        // controls
+        src={videoSrc}
+        poster={image}
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          display: "block",
+          width: "100%",
+        }}
+      />
+      <img
+        style={{ position: "relative" }}
+        src={
+          orientation === "portrait"
+            ? require("../images/iPhone-Xs.png")
+            : require("../images/iPhone-Xs-landscape.png")
+        }
+      />
     </div>
     <div
       style={{
-        display: "flex",
-        fontFamily: "HelveticaNeue-Bold",
-        fontSize: 13,
-        color: "#000000",
-        textTransform: "uppercase",
+        marginTop: 16,
+        // padding: 8,
+        // border: "1px dashed #000",
+        // borderTop: "none",
       }}
     >
-      {appLinks &&
-        appLinks.map(link => <a href={link.href || "#"}>{link} ⇢</a>)}
+      <div
+        style={{
+          fontSize: "14px",
+          fontWeight: "600",
+          lineHeight: "1.42861",
+          letterSpacing: "-.016em",
+          fontFamily:
+            '"SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif',
+          color: "#000000",
+          textTransform: "uppercase",
+        }}
+      >
+        OFF-WHITE Gallery
+      </div>
+      <br />
+      <div
+        style={{
+          fontSize: "14px",
+          fontWeight: "600",
+          lineHeight: "1.42861",
+          letterSpacing: "-.016em",
+          fontFamily:
+            '"SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif',
+          color: "#000000",
+          // textTransform: "uppercase",
+        }}
+      >
+        {appInfoText}
+      </div>
+      <br />
+      <div
+        style={{
+          fontSize: "11px",
+          fontWeight: "600",
+          letterSpacing: 0.25,
+          fontFamily:
+            '"SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif',
+          color: "#ff85e9",
+          textTransform: "uppercase",
+        }}
+      >
+        #{appTechnology}
+      </div>
     </div>
   </div>
 )
@@ -52,13 +106,21 @@ const Text = ({ children, style }) => (
   >
     <p
       style={{
-        maxWidth: 640,
+        maxWidth: 680,
         marginBottom: 0,
-        fontFamily: "HelveticaNeue-Bold",
-        fontSize: "24px",
+        // fontFamily: "system-ui",
+        // fontWeight: "500",
+        // fontSize: "30px",
         color: "#000000",
-        lineHeight: "32px",
-        textTransform: "uppercase",
+        // lineHeight: 1.25,
+        // FONT FROM 
+        fontSize: "32px",
+        lineHeight: "1.125",
+        fontWeight: "600",
+        letterSpacing: ".004em",
+        fontFamily:
+          '"SF Pro Display","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif',
+        // textTransform: "uppercase",
       }}
     >
       {children}
@@ -108,8 +170,9 @@ const IndexPage = () => (
         style={{ gridArea: "b" }}
         image={require("../images/off-white.jpeg")}
         videoSrc={require("../videos/off-white-gallery.mp4")}
-        appInfoText="This is a cool app title"
+        appInfoText="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua et dolore magna aliqua."
         appLinks={[" App Store"]}
+        appTechnology="React Native"
       />
       <IPhone
         style={{ gridArea: "c" }}
@@ -117,6 +180,7 @@ const IndexPage = () => (
         videoSrc={require("../videos/showcase-live-stream.mp4")}
         appInfoText="It is so lit"
         appLinks={["Expo Snack", "GitHub"]}
+        orientation="landscape"
       />
       <IPhone
         style={{ gridArea: "d" }}
