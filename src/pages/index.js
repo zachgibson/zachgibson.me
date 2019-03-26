@@ -1,14 +1,66 @@
-import React, { Fragment } from "react"
+import React, { Fragment, Component } from "react"
 import { Link } from "gatsby"
+import ReactPlayer from "react-player"
 
 import Layout from "../components/layout"
 import Image from "../components/image"
 import SEO from "../components/seo"
 
+class Video extends Component {
+  render() {
+    const { image = null, orientation = "portrait" } = this.props
+    return (
+      <div
+        style={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          bottom: 0,
+          right: 0,
+        }}
+      >
+        <div
+          style={{
+            position: "relative",
+            top: "2.75%",
+            paddingTop: "189%" /* Player ratio: 100 / (1280 / 720) */,
+          }}
+        >
+          <ReactPlayer
+            url="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/foo.m3u8"
+            playing
+            controls
+            loop
+            // width={orientation === "portrait" ? "87.25%" : "94.5%"}
+            // height={orientation === "portrait" ? "94%" : "auto"}
+            width="100%"
+            height="100%"
+            // height="93.5%"
+            style={{
+              // backgroundColor: "red",
+              position: "absolute",
+              top: "0",
+              left: "0",
+              // top: "2.75%",
+              // bottom: "3%",
+              // left: "3%",
+              // right: "3%",
+              // top: orientation === "portrait" ? "2.4%" : "6.3%",
+              // left: orientation === "portrait" ? "6.5%" : "2.9%",
+              // width: orientation === "portrait" ? "87.25%" : "94.5%",
+            }}
+          />
+        </div>
+      </div>
+    )
+  }
+}
+
 const IPhone = ({
   image,
   style,
   videoSrc,
+  title,
   appInfoText,
   appLinks,
   appTechnology,
@@ -16,26 +68,17 @@ const IPhone = ({
 }) => (
   <div
     style={{
-      padding: 32,
+      padding: "40px 56px",
       ...style,
     }}
   >
-    <div style={{ position: "relative" }}>
-      <video
-        controls
-        src={videoSrc}
-        poster={image}
-        style={{
-          position: "absolute",
-          top: orientation === "portrait" ? "2.75%" : "6.3%",
-          left: orientation === "portrait" ? "6.5%" : "2.9%",
-          width: orientation === "portrait" ? "87%" : "94.5%",
-        }}
-      />
+    <div style={{ position: "relative", marginBottom: 16 }}>
+      <Video />
       <img
         style={{
           pointerEvents: "none",
           position: "relative",
+          // opacity: 0.5,
         }}
         src={
           orientation === "portrait"
@@ -44,13 +87,10 @@ const IPhone = ({
         }
       />
     </div>
-    <div
-      style={{
-        marginTop: 16,
-      }}
-    >
+    <Fragment>
       <div
         style={{
+          marginBottom: 6,
           fontSize: 16,
           fontWeight: "700",
           lineHeight: "1.42861",
@@ -60,7 +100,7 @@ const IPhone = ({
           color: "#000000",
         }}
       >
-        OFF-WHITE Gallery
+        {title}
       </div>
       <div
         style={{
@@ -89,14 +129,14 @@ const IPhone = ({
       >
         #{appTechnology}
       </div>
-    </div>
+    </Fragment>
   </div>
 )
 
 const Text = ({ children, style }) => (
   <div
     style={{
-      padding: 32,
+      padding: "40px 56px",
       ...style,
     }}
   >
@@ -142,7 +182,7 @@ const IndexPage = () => (
       <Text
         style={{
           gridArea: "a",
-          marginTop: 80,
+          marginTop: 72,
         }}
       >
         Zachary Gibson is an app developer, and sometimes designer, living in
@@ -158,57 +198,21 @@ const IndexPage = () => (
       </Text>
       <IPhone
         style={{ gridArea: "b" }}
-        image={require("../images/off-white.jpeg")}
-        videoSrc={require("../videos/off-white-gallery.mp4")}
-        appInfoText="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua et dolore magna aliqua."
+        // image={require("../images/off-white.jpeg")}
+        videoSrc={require("../videos/1.mp4")}
+        title='"OFF-WHITE Gallery"'
+        appInfoText="Experimenting with what an interactive, fun, shoe browsing experience could be like. All the aesthetics borrowed from the great Virgil Abloh."
         appLinks={[" App Store"]}
         appTechnology="React Native"
       />
-      <IPhone
-        style={{ gridArea: "c" }}
-        image={require("../images/camera.jpg")}
-        videoSrc={require("../videos/showcase-live-stream.mp4")}
-        appInfoText="It is so lit"
-        appLinks={["Expo Snack", "GitHub"]}
-        orientation="landscape"
-      />
-      <IPhone
-        style={{ gridArea: "d" }}
-        image={require("../images/balllr.jpeg")}
-        videoSrc={require("../videos/off-white-gallery.mp4")}
-        appInfoText="App Info"
-      />
-      <IPhone
-        style={{ gridArea: "e" }}
-        image={require("../images/camera.jpg")}
-        videoSrc={require("../videos/showcase-live-stream.mp4")}
-        orientation="landscape"
-      />
-      <IPhone
-        style={{ gridArea: "f" }}
-        image={require("../images/balllr.jpeg")}
-        videoSrc={require("../videos/off-white-gallery.mp4")}
-        appInfoText="App Info"
-      />
-      <IPhone
-        style={{ gridArea: "g" }}
-        image={require("../images/balllr.jpeg")}
-        videoSrc={require("../videos/off-white-gallery.mp4")}
-        appInfoText="App Info"
-      />
-      <IPhone
-        style={{ gridArea: "i" }}
-        image={require("../images/balllr.jpeg")}
-        videoSrc={require("../videos/off-white-gallery.mp4")}
-        appInfoText="App Info"
-      />
+
       <div
         style={{
           gridArea: "j",
         }}
       >
         <Text>
-          <img src="https://scontent-atl3-1.cdninstagram.com/vp/6f721bc3c669eff7b2fc95edba92398c/5D2EB6F6/t51.2885-15/e15/1688266_1441623519406231_1454166021_n.jpg?_nc_ht=scontent-atl3-1.cdninstagram.com" />
+          <img src={require("../images/profile.jpg")} />
           <br />
           I spend my time Tweeting, taking photos, making art, and writing code.
           I also write about design, courage, and lack thereof.
@@ -223,3 +227,43 @@ const IndexPage = () => (
 )
 
 export default IndexPage
+
+//   < IPhone
+// style = {{ gridArea: "c" }}
+// // image={require("../images/camera.jpg")}
+// videoSrc = { require("../videos/showcase-live-stream.mp4") }
+// title = "Live Camera Prototype"
+// appInfoText = "This was for a quick hack-a-thon."
+// appLinks = { ["Expo Snack", "GitHub"]}
+// orientation = "landscape"
+//   />
+//   <IPhone
+//     style={{ gridArea: "d" }}
+//     // image={require("../images/twitter-moments.jpeg")}
+//     videoSrc={require("../videos/2.mp4")}
+//     appInfoText="App Info"
+//   />
+//   <IPhone
+//     style={{ gridArea: "e" }}
+//     // image={require("../images/camera.jpg")}
+//     videoSrc={require("../videos/showcase-live-stream.mp4")}
+//     orientation="landscape"
+//   />
+//   <IPhone
+//     style={{ gridArea: "f" }}
+//     // image={require("../images/balllr.jpeg")}
+//     videoSrc={require("../videos/3.mp4")}
+//     appInfoText="App Info"
+//   />
+//   <IPhone
+//     style={{ gridArea: "g" }}
+//     // image={require("../images/balllr.jpeg")}
+//     videoSrc={require("../videos/off-white-gallery.mp4")}
+//     appInfoText="App Info"
+//   />
+//   <IPhone
+//     style={{ gridArea: "i" }}
+//     // image={require("../images/balllr.jpeg")}
+//     videoSrc={require("../videos/off-white-gallery.mp4")}
+//     appInfoText="App Info"
+//   />

@@ -17,9 +17,10 @@
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-helmet": "^5.2.0",
-    "react-player": "^1.9.3"
+    "react-player": "^1.10.0"
   },
   "devDependencies": {
+    "@types/hls.js": "^0.12.3",
     "prettier": "^1.16.4"
   },
   "keywords": [
