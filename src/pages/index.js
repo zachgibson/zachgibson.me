@@ -1,9 +1,7 @@
 import React, { Fragment, Component } from "react"
-import { Link } from "gatsby"
 import ReactPlayer from "react-player"
 
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
 
 class Video extends Component {
@@ -199,7 +197,6 @@ const IndexPage = () => (
       <IPhone
         style={{ gridArea: "b" }}
         // image={require("../images/off-white.jpeg")}
-        videoSrc={require("../videos/1.mp4")}
         title='"OFF-WHITE Gallery"'
         appInfoText="Experimenting with what an interactive, fun, shoe browsing experience could be like. All the aesthetics borrowed from the great Virgil Abloh."
         appLinks={[" App Store"]}
