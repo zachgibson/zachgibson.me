@@ -4,10 +4,26 @@ import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 class Video extends Component {
-  state = { isPlaying: false }
+  state = { isPlaying: false, playButtonIsVisible: true }
+  timeoutId
+
+  handleContainerClick = () => {
+    this.setState({ playButtonIsVisible: true }, () => {
+      clearTimeout(this.timeoutId)
+      if (this.state.isPlaying) {
+        this.timeoutId = setTimeout(() => {
+          this.setState({ playButtonIsVisible: false })
+        }, 750)
+      }
+    })
+  }
 
   togglePlayState = () => {
     this.setState(previousState => ({ isPlaying: !previousState.isPlaying }))
+  }
+
+  stopVideo = () => {
+    this.setState({ isPlaying: false, playButtonIsVisible: true })
   }
 
   render() {
@@ -20,17 +36,14 @@ class Video extends Component {
     } = this.props
     return (
       <div
+        onClick={this.handleContainerClick}
         css={{
+          cursor: "pointer",
           position: "absolute",
           top: 0,
           left: 0,
           bottom: 0,
           right: 0,
-          "&:hover": {
-            ".play-button": {
-              opacity: 1,
-            },
-          },
         }}
       >
         <div
@@ -47,75 +60,72 @@ class Video extends Component {
               left: 16,
               bottom: 0,
               right: 16,
-              // backgroundColor: "#000",
             }}
           />
           <ReactPlayer
             url={url}
             playing={this.state.isPlaying}
-            // controls
-            // loop
-            onEnded={this.togglePlayState}
-            // width={orientation === "portrait" ? "87.25%" : "94.5%"}
-            // height={orientation === "portrait" ? "94%" : "auto"}
+            controls={false}
+            playsinline={true}
+            onEnded={this.stopVideo}
             width="100%"
             height="100%"
-            // height="93.5%"
             style={{
-              // backgroundColor: "red",
+              pointerEvents: "none",
               position: "absolute",
               top: "0",
               left: "0",
-              // top: "2.75%",
-              // bottom: "3%",
-              // left: "3%",
-              // right: "3%",
-              // top: orientation === "portrait" ? "2.4%" : "6.3%",
-              // left: orientation === "portrait" ? "6.5%" : "2.9%",
-              // width: orientation === "portrait" ? "87.25%" : "94.5%",
             }}
           />
-          <div
-            className="play-button"
-            onClick={this.togglePlayState}
-            css={{
-              position: "absolute",
-              top: "50%",
-              left: "50%",
-              transform: "translate(-50%, -50%)",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              width: 80,
-              height: 80,
-              backgroundColor: "rgba(0, 0, 0, 0.75)",
-              cursor: "pointer",
-              opacity: this.state.isPlaying ? 0 : 1,
-              transition: "all 150ms",
-              backdropFilter: "blur(10px)",
-              "&:hover": {
-                transform: "translate(-50%, -50%) scale(1.1)",
-              },
-              "&:active": {
-                transform: "translate(-50%, -50%) scale(0.9)",
-              },
-            }}
-          >
+          {this.state.playButtonIsVisible && (
             <div
               css={{
-                display: "block",
-                boxSizing: "border-box",
-                width: 0,
-                height: 24,
-                marginRight: this.state.isPlaying ? 0 : -4,
-                borderColor: "transparent transparent transparent #fff",
-                borderStyle: this.state.isPlaying ? "double" : "solid",
-                borderWidth: this.state.isPlaying
-                  ? "0px 0 0px 24px"
-                  : "12px 0 12px 20px",
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                transition: "all 150ms",
+                "@media(min-width: 800px)": {
+                  "&:hover": {
+                    transform: "translate(-50%, -50%) scale(1.1)",
+                  },
+                },
+                cursor: "pointer",
+                "&:active": {
+                  transform: "translate(-50%, -50%) scale(0.9)",
+                },
               }}
-            />
-          </div>
+            >
+              <div
+                className="play-button"
+                onClick={this.togglePlayState}
+                css={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 80,
+                  height: 80,
+                  backgroundColor: "rgba(0, 0, 0, 0.75)",
+                  backdropFilter: "blur(10px)",
+                }}
+              >
+                <div
+                  css={{
+                    display: "block",
+                    boxSizing: "border-box",
+                    width: 0,
+                    height: 24,
+                    marginRight: this.state.isPlaying ? 0 : -4,
+                    borderColor: "transparent transparent transparent #fff",
+                    borderStyle: this.state.isPlaying ? "double" : "solid",
+                    borderWidth: this.state.isPlaying
+                      ? "0px 0 0px 24px"
+                      : "12px 0 12px 20px",
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     )
@@ -159,7 +169,6 @@ const DeviceFrame = ({
         style={{
           pointerEvents: "none",
           position: "relative",
-          // opacity: 0.5,
         }}
         src={imageSrc}
       />
@@ -182,9 +191,8 @@ const DeviceFrame = ({
       <div
         style={{
           fontSize: "14px",
-          fontWeight: "600",
           lineHeight: "1.42861",
-          letterSpacing: "-.016em",
+          letterSpacing: -0.2,
           fontFamily:
             '"SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif',
           color: "#000000",
@@ -201,7 +209,6 @@ const DeviceFrame = ({
           fontFamily:
             '"SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif',
           color: "#ff85e9",
-          // textTransform: "uppercase",
         }}
       >
         #{appTechnology}
@@ -212,22 +219,26 @@ const DeviceFrame = ({
 
 const Text = ({ children, style }) => (
   <div
-    style={{
+    css={{
       padding: "40px 56px",
+      "@media(max-width: 800px)": {
+        padding: "40px 24px",
+      },
       ...style,
     }}
   >
     <p
-      style={{
-        // maxWidth: 680,
+      css={{
         marginBottom: 0,
         color: "#000000",
         fontSize: 34,
         lineHeight: "1.25",
         fontWeight: "900",
-        // textTransform: "uppercase",
         letterSpacing: ".004em",
         fontFamily: "font",
+        '@media(max-width: 800px)': {
+          fontSize: 24
+        }
       }}
     >
       {children}
@@ -240,8 +251,7 @@ const IndexPage = () => (
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
     <div
       css={{
-        // GRID styles
-        "@media(min-width: 1080px)": {
+        "@media(min-width: 900px)": {
           display: "grid",
           gridTemplateColumns: "10% 10% 10% 10% 10% 10% 10% 10% 10% 10%",
           gridTemplateAreas: `"a a a a a a . b b b" 
@@ -252,7 +262,6 @@ const IndexPage = () => (
                             "i i i j j j j j j ."
                             ". . . j j j j j j ."`,
         },
-        // end GRID styles
         maxWidth: 1440,
         marginLeft: "auto",
         marginRight: "auto",
@@ -261,7 +270,7 @@ const IndexPage = () => (
       <Text
         style={{
           gridArea: "a",
-          marginTop: 72,
+          "@media(min-width: 800px)": { marginTop: 72 },
         }}
       >
         Zachary Gibson is a software developer, and sometimes designer, in
