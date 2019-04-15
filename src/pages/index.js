@@ -1,34 +1,61 @@
-import React, { Fragment, Component } from "react"
+import React, { Component, Fragment } from "react"
 import ReactPlayer from "react-player"
-
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
 class Video extends Component {
+  state = { isPlaying: false }
+
+  togglePlayState = () => {
+    this.setState(previousState => ({ isPlaying: !previousState.isPlaying }))
+  }
+
   render() {
-    const { image = null, orientation = "portrait" } = this.props
+    const {
+      url,
+      image = null,
+      orientation = "portrait",
+      top,
+      paddingTop,
+    } = this.props
     return (
       <div
-        style={{
+        css={{
           position: "absolute",
           top: 0,
           left: 0,
           bottom: 0,
           right: 0,
+          "&:hover": {
+            ".play-button": {
+              opacity: 1,
+            },
+          },
         }}
       >
         <div
           style={{
             position: "relative",
-            top: "2.75%",
-            paddingTop: "189%" /* Player ratio: 100 / (1280 / 720) */,
+            top,
+            paddingTop,
           }}
         >
+          <div
+            css={{
+              position: "absolute",
+              top: 0,
+              left: 16,
+              bottom: 0,
+              right: 16,
+              // backgroundColor: "#000",
+            }}
+          />
           <ReactPlayer
-            url="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/foo.m3u8"
-            playing
-            controls
-            loop
+            url={url}
+            playing={this.state.isPlaying}
+            // controls
+            // loop
+            onEnded={this.togglePlayState}
             // width={orientation === "portrait" ? "87.25%" : "94.5%"}
             // height={orientation === "portrait" ? "94%" : "auto"}
             width="100%"
@@ -48,21 +75,66 @@ class Video extends Component {
               // width: orientation === "portrait" ? "87.25%" : "94.5%",
             }}
           />
+          <div
+            className="play-button"
+            onClick={this.togglePlayState}
+            css={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: 80,
+              height: 80,
+              backgroundColor: "rgba(0, 0, 0, 0.75)",
+              cursor: "pointer",
+              opacity: this.state.isPlaying ? 0 : 1,
+              transition: "all 150ms",
+              backdropFilter: "blur(10px)",
+              "&:hover": {
+                transform: "translate(-50%, -50%) scale(1.1)",
+              },
+              "&:active": {
+                transform: "translate(-50%, -50%) scale(0.9)",
+              },
+            }}
+          >
+            <div
+              css={{
+                display: "block",
+                boxSizing: "border-box",
+                width: 0,
+                height: 24,
+                marginRight: this.state.isPlaying ? 0 : -4,
+                borderColor: "transparent transparent transparent #fff",
+                borderStyle: this.state.isPlaying ? "double" : "solid",
+                borderWidth: this.state.isPlaying
+                  ? "0px 0 0px 24px"
+                  : "12px 0 12px 20px",
+              }}
+            />
+          </div>
         </div>
       </div>
     )
   }
 }
 
-const IPhone = ({
+const DeviceFrame = ({
   image,
+  videoUrl,
   style,
   videoSrc,
   title,
   appInfoText,
   appLinks,
   appTechnology,
+  imageSrc,
   orientation = "portrait",
+  top,
+  paddingTop,
 }) => (
   <div
     style={{
@@ -71,18 +143,19 @@ const IPhone = ({
     }}
   >
     <div style={{ position: "relative", marginBottom: 16 }}>
-      <Video />
+      <Video
+        url={videoUrl}
+        orientation={orientation}
+        top={top}
+        paddingTop={paddingTop}
+      />
       <img
         style={{
           pointerEvents: "none",
           position: "relative",
           // opacity: 0.5,
         }}
-        src={
-          orientation === "portrait"
-            ? require("../images/iPhone-Xs.png")
-            : require("../images/iPhone-Xs-landscape.png")
-        }
+        src={imageSrc}
       />
     </div>
     <Fragment>
@@ -122,7 +195,7 @@ const IPhone = ({
           fontFamily:
             '"SF Pro Text","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif',
           color: "#ff85e9",
-          textTransform: "uppercase",
+          // textTransform: "uppercase",
         }}
       >
         #{appTechnology}
@@ -140,15 +213,15 @@ const Text = ({ children, style }) => (
   >
     <p
       style={{
-        maxWidth: 680,
+        // maxWidth: 680,
         marginBottom: 0,
         color: "#000000",
-        fontSize: "32px",
-        lineHeight: "1.125",
-        fontWeight: "600",
+        fontSize: 34,
+        lineHeight: "1.25",
+        fontWeight: "900",
+        // textTransform: "uppercase",
         letterSpacing: ".004em",
-        fontFamily:
-          '"SF Pro Display","SF Pro Icons","Helvetica Neue","Helvetica","Arial",sans-serif',
+        fontFamily: "font",
       }}
     >
       {children}
@@ -183,26 +256,90 @@ const IndexPage = () => (
           marginTop: 72,
         }}
       >
-        Zachary Gibson is an app developer, and sometimes designer, living in
-        Dallas, Texas.
+        Zachary Gibson is a software developer, and sometimes designer, in
+        Dallas, TX.
         <br />
         <br />
-        He primarily writes React Native apps but is slowly and surely falling
-        in love with Swift.
-        <br />
-        You can reach him on{" "}
-        <a href="https://twitter.com/zacharykeith_">Twitter</a> or{" "}
-        <a href="mailto:zackgib@aol.com">email</a>.
+        I’m interested in art, technology, and using my imagination to make
+        things I like. I primarily build mobile apps.
       </Text>
-      <IPhone
+      <DeviceFrame
+        imageSrc={require("../images/iPhone-Xs.png")}
+        top="2.75%"
+        paddingTop="189.5%"
+        videoUrl="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/off-white.m3u8"
         style={{ gridArea: "b" }}
-        // image={require("../images/off-white.jpeg")}
         title='"OFF-WHITE Gallery"'
         appInfoText="Experimenting with what an interactive, fun, shoe browsing experience could be like. All the aesthetics borrowed from the great Virgil Abloh."
         appLinks={[" App Store"]}
         appTechnology="React Native"
       />
-
+      <DeviceFrame
+        imageSrc={require("../images/iPhone-Xs-landscape.png")}
+        top="6%"
+        paddingTop="44%"
+        videoUrl="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/showcase.m3u8"
+        style={{ gridArea: "c" }}
+        title="Live Camera Prototype"
+        appInfoText="This was for a quick hack-a-thon."
+        appLinks={["Expo Snack", "GitHub"]}
+        orientation="landscape"
+      />
+      <DeviceFrame
+        imageSrc={require("../images/iPhone-Xs.png")}
+        top="2.75%"
+        paddingTop="189.5%"
+        videoUrl="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/twitter-moments.m3u8"
+        style={{ gridArea: "d" }}
+        title='"OFF-WHITE Gallery"'
+        appInfoText="Experimenting with what an interactive, fun, shoe browsing experience could be like. All the aesthetics borrowed from the great Virgil Abloh."
+        appLinks={[" App Store"]}
+        appTechnology="React Native"
+      />
+      <DeviceFrame
+        imageSrc={require("../images/macbook-pro.png")}
+        top="6.6%"
+        paddingTop="47.8%"
+        videoUrl="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/local-to-ip.m3u8"
+        style={{ gridArea: "e" }}
+        title="Live Camera Prototype"
+        appInfoText="This was for a quick hack-a-thon."
+        appLinks={["Expo Snack", "GitHub"]}
+        orientation="landscape"
+      />
+      <DeviceFrame
+        imageSrc={require("../images/iPhone-Xs.png")}
+        top="2.75%"
+        paddingTop="189.5%"
+        videoUrl="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/golden-hour.m3u8"
+        style={{ gridArea: "f" }}
+        title='"OFF-WHITE Gallery"'
+        appInfoText="Experimenting with what an interactive, fun, shoe browsing experience could be like. All the aesthetics borrowed from the great Virgil Abloh."
+        appLinks={[" App Store"]}
+        appTechnology="React Native"
+      />
+      <DeviceFrame
+        imageSrc={require("../images/iPhone-Xs.png")}
+        top="2.75%"
+        paddingTop="189.5%"
+        videoUrl="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/nike-gallery.m3u8"
+        style={{ gridArea: "g" }}
+        title='"OFF-WHITE Gallery"'
+        appInfoText="Experimenting with what an interactive, fun, shoe browsing experience could be like. All the aesthetics borrowed from the great Virgil Abloh."
+        appLinks={[" App Store"]}
+        appTechnology="React Native"
+      />
+      <DeviceFrame
+        imageSrc={require("../images/iPhone-Xs.png")}
+        top="2.75%"
+        paddingTop="189.5%"
+        videoUrl="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/balllr.m3u8"
+        style={{ gridArea: "i" }}
+        title='"OFF-WHITE Gallery"'
+        appInfoText="Experimenting with what an interactive, fun, shoe browsing experience could be like. All the aesthetics borrowed from the great Virgil Abloh."
+        appLinks={[" App Store"]}
+        appTechnology="React Native"
+      />
       <div
         style={{
           gridArea: "j",
@@ -224,43 +361,3 @@ const IndexPage = () => (
 )
 
 export default IndexPage
-
-//   < IPhone
-// style = {{ gridArea: "c" }}
-// // image={require("../images/camera.jpg")}
-// videoSrc = { require("../videos/showcase-live-stream.mp4") }
-// title = "Live Camera Prototype"
-// appInfoText = "This was for a quick hack-a-thon."
-// appLinks = { ["Expo Snack", "GitHub"]}
-// orientation = "landscape"
-//   />
-//   <IPhone
-//     style={{ gridArea: "d" }}
-//     // image={require("../images/twitter-moments.jpeg")}
-//     videoSrc={require("../videos/2.mp4")}
-//     appInfoText="App Info"
-//   />
-//   <IPhone
-//     style={{ gridArea: "e" }}
-//     // image={require("../images/camera.jpg")}
-//     videoSrc={require("../videos/showcase-live-stream.mp4")}
-//     orientation="landscape"
-//   />
-//   <IPhone
-//     style={{ gridArea: "f" }}
-//     // image={require("../images/balllr.jpeg")}
-//     videoSrc={require("../videos/3.mp4")}
-//     appInfoText="App Info"
-//   />
-//   <IPhone
-//     style={{ gridArea: "g" }}
-//     // image={require("../images/balllr.jpeg")}
-//     videoSrc={require("../videos/off-white-gallery.mp4")}
-//     appInfoText="App Info"
-//   />
-//   <IPhone
-//     style={{ gridArea: "i" }}
-//     // image={require("../images/balllr.jpeg")}
-//     videoSrc={require("../videos/off-white-gallery.mp4")}
-//     appInfoText="App Info"
-//   />
