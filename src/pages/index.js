@@ -137,8 +137,14 @@ const DeviceFrame = ({
   paddingTop,
 }) => (
   <div
-    style={{
+    css={{
       padding: "40px 56px",
+      maxWidth: orientation === "portrait" ? 424 : "none",
+      marginLeft: "auto",
+      marginRight: "auto",
+      "@media(max-width: 800px)": {
+        padding: "40px 24px",
+      },
       ...style,
     }}
   >
@@ -233,17 +239,19 @@ const IndexPage = () => (
   <Layout>
     <SEO title="Home" keywords={[`gatsby`, `application`, `react`]} />
     <div
-      style={{
+      css={{
         // GRID styles
-        display: "grid",
-        gridTemplateColumns: "10% 10% 10% 10% 10% 10% 10% 10% 10% 10%",
-        gridTemplateAreas: `"a a a a a a . b b b" 
+        "@media(min-width: 1080px)": {
+          display: "grid",
+          gridTemplateColumns: "10% 10% 10% 10% 10% 10% 10% 10% 10% 10%",
+          gridTemplateAreas: `"a a a a a a . b b b" 
                             "c c c c c c c b b b" 
                             "d d d e e e e e e e" 
                             "d d d f f f g g g ." 
                             "i i i f f f g g g ." 
                             "i i i j j j j j j ."
                             ". . . j j j j j j ."`,
+        },
         // end GRID styles
         maxWidth: 1440,
         marginLeft: "auto",
