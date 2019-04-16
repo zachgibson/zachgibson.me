@@ -2,10 +2,20 @@ import React, { Component, Fragment } from "react"
 import ReactPlayer from "react-player"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
+import IOSHLSPlayer from "../components/IOSHLSPlayer"
 
 class Video extends Component {
-  state = { isPlaying: false, playButtonIsVisible: true }
+  state = { isPlaying: false, playButtonIsVisible: true, iOS: false }
   timeoutId
+
+  componentDidMount() {
+    const iOS =
+      !!navigator.platform && /iPad|iPhone|iPod/.test(navigator.platform)
+
+    if (iOS) {
+      this.setState({ iOS: true })
+    }
+  }
 
   handleContainerClick = () => {
     this.setState({ playButtonIsVisible: true }, () => {
@@ -62,86 +72,89 @@ class Video extends Component {
               right: 16,
             }}
           />
-          {
-            //   <ReactPlayer
-            //   url={url}
-            //   playing={this.state.isPlaying}
-            //   controls={false}
-            //   playsinline={true}
-            //   onEnded={this.stopVideo}
-            //   width="100%"
-            //   height="100%"
-            //   style={{
-            //     pointerEvents: "none",
-            //     position: "absolute",
-            //     top: "0",
-            //     left: "0",
-            //   }}
-            // />
-          }
-          <video
-            width="100%"
-            height="100%"
-            controls
-            style={{
-              position: "absolute",
-              top: "0",
-              left: "0",
-            }}
-          >
-            <source src={url} type="application/x-mpegURL" />
-          </video>
-          {
-            // {this.state.playButtonIsVisible && (
-            //   <div
-            //     css={{
-            //       position: "absolute",
-            //       top: "50%",
-            //       left: "50%",
-            //       transform: "translate(-50%, -50%)",
-            //       transition: "all 150ms",
-            //       "@media(min-width: 800px)": {
-            //         "&:hover": {
-            //           transform: "translate(-50%, -50%) scale(1.1)",
-            //         },
-            //       },
-            //       cursor: "pointer",
-            //       "&:active": {
-            //         transform: "translate(-50%, -50%) scale(0.9)",
-            //       },
-            //     }}
-            //   >
-            //     <div
-            //       className="play-button"
-            //       onClick={this.togglePlayState}
-            //       css={{
-            //         display: "flex",
-            //         alignItems: "center",
-            //         justifyContent: "center",
-            //         width: 80,
-            //         height: 80,
-            //         backgroundColor: "rgba(0, 0, 0, 0.75)",
-            //         backdropFilter: "blur(10px)",
-            //       }}
-            //     >
-            //       <div
-            //         css={{
-            //           display: "block",
-            //           boxSizing: "border-box",
-            //           width: 0,
-            //           height: 24,
-            //           marginRight: this.state.isPlaying ? 0 : -4,
-            //           borderColor: "transparent transparent transparent #fff",
-            //           borderStyle: this.state.isPlaying ? "double" : "solid",
-            //           borderWidth: this.state.isPlaying
-            //             ? "0px 0 0px 24px"
-            //             : "12px 0 12px 20px",
-            //         }}
-            //       />
-            //     </div>
-            //   </div>
-            // )}
-          }
+          {!this.state.iOS && (
+            <ReactPlayer
+              url={url}
+              playing={this.state.isPlaying}
+              controls={false}
+              playsinline={true}
+              onEnded={this.stopVideo}
+              width="100%"
+              height="100%"
+              style={{
+                pointerEvents: "none",
+                position: "absolute",
+                top: "0",
+                left: "0",
+              }}
+            />
+          )}
+          {this.state.iOS && (
+            <IOSHLSPlayer
+              url={url}
+              playing={this.state.isPlaying}
+              controls={false}
+              playsinline={true}
+              onEnded={this.stopVideo}
+              width="100%"
+              height="100%"
+              style={{
+                pointerEvents: "none",
+                position: "absolute",
+                top: "0",
+                left: "0",
+              }}
+            />
+          )}
+          {this.state.playButtonIsVisible && (
+            <div
+              css={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                transition: "all 150ms",
+                "@media(min-width: 800px)": {
+                  "&:hover": {
+                    transform: "translate(-50%, -50%) scale(1.1)",
+                  },
+                },
+                cursor: "pointer",
+                "&:active": {
+                  transform: "translate(-50%, -50%) scale(0.9)",
+                },
+              }}
+            >
+              <div
+                className="play-button"
+                onClick={this.togglePlayState}
+                css={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  width: 80,
+                  height: 80,
+                  backgroundColor: "rgba(0, 0, 0, 0.75)",
+                  backdropFilter: "blur(10px)",
+                }}
+              >
+                <div
+                  css={{
+                    display: "block",
+                    boxSizing: "border-box",
+                    width: 0,
+                    height: 24,
+                    marginRight: this.state.isPlaying ? 0 : -4,
+                    borderColor: "transparent transparent transparent #fff",
+                    borderStyle: this.state.isPlaying ? "double" : "solid",
+                    borderWidth: this.state.isPlaying
+                      ? "0px 0 0px 24px"
+                      : "12px 0 12px 20px",
+                  }}
+                />
+              </div>
+            </div>
+          )}
         </div>
       </div>
     )
