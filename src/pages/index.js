@@ -273,9 +273,77 @@ const IndexPage = () => (
         I’m interested in art, technology, and using my imagination to make
         things I like. I primarily build mobile apps.
       </Text>
-      <ReactPlayer
-        url="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/off-white.m3u8"
-        controls
+      <DeviceFrame
+        color="#9B1E25"
+        imageSrc={require("../images/iPhone-Xs.png")}
+        top="2.75%"
+        paddingTop="189.5%"
+        videoUrl="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/off-white.m3u8"
+        style={{ gridArea: "b" }}
+        title='"OFF-WHITE Gallery"'
+        appInfoText="Experimenting with what an interactive, fun, shoe browsing experience could be like. All the aesthetics borrowed from the great Virgil Abloh."
+      />
+      <DeviceFrame
+        color="#F32C34"
+        imageSrc={require("../images/iPhone-Xs-landscape.png")}
+        top="6%"
+        paddingTop="44%"
+        videoUrl="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/showcase.m3u8"
+        style={{ gridArea: "c" }}
+        title="Live Camera Prototype"
+        appInfoText="This was for a quick hack-a-thon."
+        orientation="landscape"
+      />
+      <DeviceFrame
+        color="#F27D2B"
+        imageSrc={require("../images/iPhone-Xs.png")}
+        top="2.75%"
+        paddingTop="189.5%"
+        videoUrl="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/twitter-moments.m3u8"
+        style={{ gridArea: "d" }}
+        title="Twitter Moments Recreation"
+        appInfoText=""
+      />
+      <DeviceFrame
+        color="#A85BE1"
+        imageSrc={require("../images/macbook-pro.png")}
+        top="6.6%"
+        paddingTop="47.8%"
+        videoUrl="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/local-to-ip.m3u8"
+        style={{ gridArea: "e" }}
+        title="MacOS IP Generator"
+        appInfoText=""
+        orientation="landscape"
+      />
+      <DeviceFrame
+        color="#F8B51F"
+        imageSrc={require("../images/iPhone-Xs.png")}
+        top="2.75%"
+        paddingTop="189.5%"
+        videoUrl="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/golden-hour.m3u8"
+        style={{ gridArea: "f" }}
+        title="Golden Hour Lock Screen"
+        appInfoText=""
+      />
+      <DeviceFrame
+        color="#9361FF"
+        imageSrc={require("../images/iPhone-Xs.png")}
+        top="2.75%"
+        paddingTop="189.5%"
+        videoUrl="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/nike-gallery.m3u8"
+        style={{ gridArea: "g" }}
+        title="Nike Gallery Recreation"
+        appInfoText=""
+      />
+      <DeviceFrame
+        color="#EF5F99"
+        imageSrc={require("../images/iPhone-Xs.png")}
+        top="2.75%"
+        paddingTop="189.5%"
+        videoUrl="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/balllr.m3u8"
+        style={{ gridArea: "i" }}
+        title="Experimental Dribbble Client"
+        appInfoText=""
       />
       <div
         style={{
