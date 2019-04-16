@@ -274,18 +274,6 @@ const IndexPage = () => (
         things I like. I primarily build mobile apps.
       </Text>
       <ReactPlayer
-        onReady={() => {
-          alert("onReady!")
-        }}
-        onBuffer={() => {
-          alert("onBuffer!")
-        }}
-        onEnded={() => {
-          alert("onEnded!")
-        }}
-        onError={() => {
-          alert("onError!")
-        }}
         url="https://s3-us-west-2.amazonaws.com/zachgibson.me/streams/off-white.m3u8"
         controls
       />
