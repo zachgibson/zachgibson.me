@@ -4,6 +4,13 @@
     url("../fonts/MaisonNeueExtended-Demi.woff") format("woff");
 }
 
+html,
+body,
+#___gatsby,
+#gatsby-focus-wrapper {
+  height: 100%;
+}
+
 html {
   font-family: "MaisonNeueExtended";
   -ms-text-size-adjust: 100%;
@@ -225,7 +232,6 @@ img {
   padding-left: 0;
   padding-right: 0;
   padding-top: 0;
-  /* margin-bottom: 1.45rem; */
 }
 h1 {
   margin-left: 0;
