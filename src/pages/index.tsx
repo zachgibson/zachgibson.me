@@ -1,7 +1,7 @@
 import * as React from "react"
 import styled from "@emotion/styled"
-import { motion, useMotionValue, useTransform } from "framer-motion"
-import { interpolate } from "@popmotion/popcorn"
+import { motion, useMotionValue } from "framer-motion"
+import ReactPlayer from "react-player"
 
 import Layout from "../components/layout"
 import SEO from "../components/seo"
@@ -14,7 +14,7 @@ const AnimatedCircleContainer = styled.div({
 
 const AnimatedCircle = styled(motion.div)({
   position: "absolute",
-  zIndex: -1,
+  zIndex: 0,
   width: "50vw",
   maxWidth: 640,
   height: "50vw",
@@ -27,6 +27,15 @@ const Link = styled(motion.a)({
   position: "relative",
   zIndex: 2,
   fontSize: "calc(16px + 6 * ((100vw - 320px) / 680))",
+})
+
+const LinkHoverTarget = styled.div({
+  position: "absolute",
+  top: "-3vw",
+  left: "-3vw",
+  bottom: "-3vw",
+  right: "-3vw",
+  // backgroundColor: "red",
 })
 
 const HomeLink = styled(Link)({
@@ -102,8 +111,8 @@ const circleAnimationConfig = {
   type: "spring",
   damping: 17,
   mass: 0.5,
-  tension: 2,
-  stiffness: 200,
+  tension: 20,
+  stiffness: 150,
 }
 
 const Desktop = () => {
@@ -167,15 +176,19 @@ const Desktop = () => {
             onMouseOver={animateCircleHomeLink}
             onMouseOut={animateBackCircle}
           >
-            zachgibson.me
+            <LinkHoverTarget
+              onMouseOver={animateCircle}
+              onMouseOut={animateBackCircle}
+            />
+            This is My Website
           </HomeLink>
         </HomeLinkContainer>
         <FeaturedWorkLinkContainer>
-          <Link
-            href="/work"
-            onMouseOver={animateCircle}
-            onMouseOut={animateBackCircle}
-          >
+          <Link href="/work">
+            <LinkHoverTarget
+              onMouseOver={animateCircle}
+              onMouseOut={animateBackCircle}
+            />
             Featured Work
           </Link>
         </FeaturedWorkLinkContainer>
@@ -185,19 +198,28 @@ const Desktop = () => {
             onMouseOver={animateCircle}
             onMouseOut={animateBackCircle}
           >
+            <LinkHoverTarget
+              onMouseOver={animateCircle}
+              onMouseOut={animateBackCircle}
+            />
             Experiments
           </Link>
         </ExperimentsLinkContainer>
         <DribbbleLinkContainer>
-          <a href="https://dribbble.com/zacharygibson">
+          <a
+            href="https://itunes.apple.com/profile/zacharykeith"
+            style={{ display: "block", maxWidth: 52 }}
+          >
             <img
-              src={require("../images/dribbble.png")}
-              style={{ display: "block", maxWidth: 44 }}
+              src={require("../images/apple-music.png")}
+              style={{
+                display: "block",
+              }}
             />
           </a>
         </DribbbleLinkContainer>
         <GitHubLinkContainer>
-          <a href="https://dribbble.com/zacharygibson">
+          <a href="https://github.com/zachgibson">
             <img
               src={require("../images/github.png")}
               style={{ display: "block" }}
@@ -220,6 +242,102 @@ const Desktop = () => {
             scale: s,
           }}
         />
+        <div
+          style={{
+            position: "relative",
+            width: "100%",
+            height: "100vh",
+          }}
+        >
+          <img
+            src={require("../images/hand.png")}
+            style={{
+              width: "100%",
+              maxWidth: 560,
+              pointerEvents: "none",
+              position: "absolute",
+              top: "58%",
+              left: "59%",
+              transform: "translate(-50%, -50%)",
+              // backgroundColor: 'blue',
+            }}
+          />
+          <div
+            style={{
+              width: "100%",
+              maxWidth: 560,
+              // pointerEvents: 'none',
+              position: "relative",
+              top: "58%",
+              left: "59%",
+              transform: "translate(-50%, -50%)",
+              // width: '100%',
+              // height: '100%',
+            }}
+          >
+            {/* <img
+              src={require("../images/hand.png")}
+              style={{
+                display: "block",
+                width: "100%",
+                maxWidth: 560,
+                opacity: 0,
+                // backgroundColor: 'red',
+                // opacity: 0.5,
+              }}
+            /> */}
+            <div
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                bottom: 0,
+                right: 0,
+                // backgroundColor: 'plum',
+              }}
+            >
+              <div className="player-wrapper">
+                <ReactPlayer
+                  className="react-player"
+                  url={require("../videos/home-video.mp4")}
+                  // playing={this.state.playing}
+                  // playing
+                  // muted
+                  width="42%"
+                  height="100%"
+                  controls
+                  // style={{ width: 'auto' }}
+                />
+              </div>
+            </div>
+          </div>
+          <img
+            src={require("../images/phone.png")}
+            style={{
+              display: "block",
+              width: "100%",
+              maxWidth: 560,
+              pointerEvents: "none",
+              position: "absolute",
+              top: "58%",
+              left: "59%",
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+          <img
+            src={require("../images/thumb.png")}
+            style={{
+              display: "block",
+              width: "100%",
+              maxWidth: 560,
+              pointerEvents: "none",
+              position: "absolute",
+              top: "58%",
+              left: "59%",
+              transform: "translate(-50%, -50%)",
+            }}
+          />
+        </div>
       </AnimatedCircleContainer>
       <LinksContainer>
         <InstagramLinkContainer>
@@ -239,6 +357,10 @@ const Desktop = () => {
             onMouseOver={animateCircle}
             onMouseOut={animateBackCircle}
           >
+            <LinkHoverTarget
+              onMouseOver={animateCircle}
+              onMouseOut={animateBackCircle}
+            />
             Writings
           </Link>
         </WritingsLinkContainer>
@@ -259,7 +381,11 @@ const Desktop = () => {
             onMouseOver={animateCircle}
             onMouseOut={animateBackCircle}
           >
-            Biography
+            <LinkHoverTarget
+              onMouseOver={animateCircle}
+              onMouseOut={animateBackCircle}
+            />
+            About Me
           </Link>
         </BiographyLinkContainer>
         <WildcardLinkContainer>
@@ -268,17 +394,18 @@ const Desktop = () => {
             onMouseOver={animateCircle}
             onMouseOut={animateBackCircle}
           >
-            Wildcard
+            <LinkHoverTarget
+              onMouseOver={animateCircle}
+              onMouseOut={animateBackCircle}
+            />
+            AppleScript Runner
           </Link>
         </WildcardLinkContainer>
         <AppleMusicLinkContainer>
-          <a
-            href="https://www.twitch.tv/zacharykeith_"
-            style={{ display: "block", maxWidth: 48 }}
-          >
+          <a href="https://dribbble.com/zacharygibson">
             <img
-              src={require("../images/spotify.png")}
-              style={{ display: "block" }}
+              src={require("../images/dribbble.png")}
+              style={{ display: "block", maxWidth: 44 }}
             />
           </a>
         </AppleMusicLinkContainer>
